@@ -80,3 +80,9 @@ void R_init_rfortran(DllInfo *dll)
     R_useDynamicSymbols(dll, FALSE);
 }
 ```
+
+## Add plays
+
+If you know any play, fortran subroutine, trick or anything let me know,
+make a [pull request](https://github.com/ibarraespinosa/rfortran/pulls)
+or anything
