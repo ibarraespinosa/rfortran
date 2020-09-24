@@ -5,6 +5,13 @@
 
 # An R package to play with Fortran and OpenMP
 
+I want to learn more R+Fortran so I created this package to play with
+R+Fortran
+
+**ALWAYS READ THE
+[R-EXTS](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
+MANUAL**
+
 Functions:
 
 **R:**
