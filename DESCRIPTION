@@ -1,0 +1,23 @@
+Package: rfortran
+Type: Package
+Title: An R package to play with Fortran
+Version: 0.1.0
+Date: 2020-09-24
+Authors@R: c( 
+  person(given = "Sergio", family = "Ibarra-Espinosa",
+         role = c("aut", "cre", "wdc"),
+         email = "sergio.ibarra@usp.br",
+         comment = c(ORCID = "0000-0002-3162-1905"))) 
+Description: Fortran subroutines and R functions.
+License: GPL
+URL: https://github.com/ibarraespinosa/frortran
+BugReports: https://github.com/ibarraespinosa/frortran/issues
+LazyData: no
+Depends: R (>= 3.5.0)
+Suggests: knitr, rmarkdown, testthat, covr, 
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+NeedsCompilation: yes
+Config/testthat/parallel: true
+Packaged: 2020-09-24 15:21:00; sergio
+VignetteBuilder: knitr

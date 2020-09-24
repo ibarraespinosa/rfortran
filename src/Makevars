@@ -1,0 +1,15 @@
+USE_FC_TO_LINK =
+PKG_FFLAGS = $(SHLIB_OPENMP_FFLAGS)
+PKG_LIBS = $(SHLIB_OPENMP_FFLAGS)
+
+
+C_OBJS = init.o
+FT_OBJS = get_threads.o
+
+all:
+	@$(MAKE) $(SHLIB)
+	@rm -f  *.o
+
+$(SHLIB): $(FT_OBJS) $(C_OBJS)
+
+init.o:  get_threads.o
