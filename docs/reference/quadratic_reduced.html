@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check the number of threads — get_threads • rfortran</title>
+<title>quadratic reduced — quadratic_reduced • rfortran</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Check the number of threads — get_threads" />
-<meta property="og:description" content="get_threads check the number of threads in this machine" />
+<meta property="og:title" content="quadratic reduced — quadratic_reduced" />
+<meta property="og:description" content="quadratic reduced" />
 
 
 
@@ -108,40 +108,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check the number of threads</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ibarraespinosa/frortran/blob/master/R/threads.R'><code>R/threads.R</code></a></small>
-    <div class="hidden name"><code>get_threads.Rd</code></div>
+    <h1>quadratic reduced</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ibarraespinosa/frortran/blob/master/R/algebra.R'><code>R/algebra.R</code></a></small>
+    <div class="hidden name"><code>quadratic_reduced.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>get_threads</code> check the number of threads in this machine</p>
+    <p>quadratic reduced</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_threads</span>(<span class='kw'>print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>quadratic_reduced</span>(<span class='no'>bb</span>, <span class='no'>cc</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>print</th>
-      <td><p>show Fortran subroutine</p></td>
+      <th>bb</th>
+      <td><p>numeric</p></td>
+    </tr>
+    <tr>
+      <th>cc</th>
+      <td><p>numeric</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Integer with the maxnumber of threads</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='fu'>get_threads</span>(<span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; SUBROUTINE checkntf (nt)
-#&gt; USE OMP_LIB
-#&gt; IMPLICIT NONE
-#&gt; INTEGER nt
-#&gt; nt = OMP_GET_MAX_THREADS()
-#&gt; RETURN
-#&gt; END</div></pre>
+<span class='fu'>quadratic_reduced</span>(<span class='fl'>1</span>:<span class='fl'>4</span>,<span class='fl'>4</span>:<span class='fl'>1</span>)
+}</div><div class='output co'>#&gt;               x1             x2      delta delta_positive
+#&gt; 1  1.797693e+308  1.797693e+308 -15.000000          FALSE
+#&gt; 2  1.797693e+308  1.797693e+308  -8.000000          FALSE
+#&gt; 3  -2.000000e+00  -1.000000e+00   1.000000           TRUE
+#&gt; 4  -3.732051e+00  -2.679492e-01   3.464102           TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

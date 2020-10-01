@@ -7,10 +7,18 @@
  */
 
 /* .Fortran calls */
+extern void F77_NAME(base_types)(void *, void *, void *);
+extern void F77_NAME(cbrt_dp)(void *, void *, void *);
 extern void F77_NAME(checkntf)(void *);
+extern void F77_NAME(quadratic_dp)(void *, void *, void *, void *, void *, void *, void *);
+extern void F77_NAME(quadratic_reduced_dp)(void *, void *, void *, void *, void *, void *);
 
 static const R_FortranMethodDef FortranEntries[] = {
-    {"checkntf", (DL_FUNC) &F77_NAME(checkntf), 1},
+    {"base_types",           (DL_FUNC) &F77_NAME(base_types),           3},
+    {"cbrt_dp",              (DL_FUNC) &F77_NAME(cbrt_dp),              3},
+    {"checkntf",             (DL_FUNC) &F77_NAME(checkntf),             1},
+    {"quadratic_dp",         (DL_FUNC) &F77_NAME(quadratic_dp),         7},
+    {"quadratic_reduced_dp", (DL_FUNC) &F77_NAME(quadratic_reduced_dp), 6},
     {NULL, NULL, 0}
 };
 

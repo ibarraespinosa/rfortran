@@ -71,63 +71,65 @@
 <a href="#an-r-package-to-play-with-fortran-and-openmp" class="anchor"></a>An R package to play with Fortran and OpenMP</h1></div>
 <p>I want to learn more R+Fortran so I created this package to play with R+Fortran</p>
 <p><strong>ALWAYS READ THE <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html">R-EXTS</a> MANUAL</strong></p>
-<p>Functions:</p>
-<p><strong>R:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rfortran</span>)
-<span class="fu"><a href="reference/get_threads.html">get_threads</a></span>()
-<span class="co">#&gt; [1] 12</span></pre></div>
-<p><strong>Fortran:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">SUBROUTINE</span> checkntf (nt) <span class="co">! # nocov start</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">USE</span> OMP_LIB</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">IMPLICIT</span> <span class="kw">NONE</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="dt">INTEGER</span> nt</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a>nt <span class="kw">=</span> OMP_GET_MAX_THREADS()</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="kw">RETURN</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">END</span> <span class="co">! # nocov end</span></span></code></pre></div>
-<p><strong>Makevars:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">USE_FC_TO_LINK</span> =</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="ex">PKG_FFLAGS</span> = <span class="va">$(</span><span class="ex">SHLIB_OPENMP_FFLAGS</span><span class="va">)</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="ex">PKG_LIBS</span> = <span class="va">$(</span><span class="ex">SHLIB_OPENMP_FFLAGS</span><span class="va">)</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="ex">C_OBJS</span> = init.o</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="ex">FT_OBJS</span> = get_threads.o</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="ex">all</span>:</span>
-<span id="cb3-10"><a href="#cb3-10"></a>    <span class="ex">@</span><span class="va">$(</span><span class="ex">MAKE</span><span class="va">)</span> <span class="va">$(</span><span class="ex">SHLIB</span><span class="va">)</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>    <span class="ex">@rm</span> -f  *.o</span>
-<span id="cb3-12"><a href="#cb3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="va">$(</span><span class="ex">SHLIB</span><span class="va">)</span><span class="bu">:</span> <span class="va">$(</span><span class="ex">FT_OBJS</span><span class="va">)</span> <span class="va">$(</span><span class="ex">C_OBJS</span><span class="va">)</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="ex">init.o</span>:  get_threads.o</span></code></pre></div>
-<p><strong>C: generated with <code><a href="https://rdrr.io/r/tools/package_native_routine_registration_skeleton.html">tools::package_native_routine_registration_skeleton(".")</a></code></strong></p>
-<p>init.c</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a><span class="pp">#include </span><span class="im">&lt;R_ext/RS.h&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span><span class="pp"> </span><span class="co">// for NULL</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="pp">#include </span><span class="im">&lt;R_ext/Rdynload.h&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">/* </span><span class="al">FIXME</span><span class="co">: </span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">   Check these declarations against the C/Fortran source code.</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">*/</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">/* .Fortran calls */</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="kw">extern</span> <span class="dt">void</span> F77_NAME(checkntf)(<span class="dt">void</span> *);</span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="dt">static</span> <span class="dt">const</span> R_FortranMethodDef FortranEntries[] = {</span>
-<span id="cb4-13"><a href="#cb4-13"></a>    {<span class="st">"checkntf"</span>, (DL_FUNC) &amp;F77_NAME(checkntf), <span class="dv">1</span>},</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    {NULL, NULL, <span class="dv">0</span>}</span>
-<span id="cb4-15"><a href="#cb4-15"></a>};</span>
-<span id="cb4-16"><a href="#cb4-16"></a></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="dt">void</span> R_init_rfortran(DllInfo *dll)</span>
-<span id="cb4-18"><a href="#cb4-18"></a>{</span>
-<span id="cb4-19"><a href="#cb4-19"></a>    R_registerRoutines(dll, NULL, NULL, FortranEntries, NULL);</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    R_useDynamicSymbols(dll, FALSE);</span>
-<span id="cb4-21"><a href="#cb4-21"></a>}</span></code></pre></div>
+<div id="comparison-r-and-fortran" class="section level2">
+<h2 class="hasAnchor">
+<a href="#comparison-r-and-fortran" class="anchor"></a>Comparison R and Fortran</h2>
+<table class="table">
+<thead><tr class="header">
+<th>R</th>
+<th>Fortran</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>dim(numeric(1L))</td>
+<td>rank?</td>
+</tr>
+<tr class="even">
+<td>TODO add more</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="implementing-several-new-fortran-subroutines" class="section level2">
+<h2 class="hasAnchor">
+<a href="#implementing-several-new-fortran-subroutines" class="anchor"></a>Implementing several new fortran subroutines</h2>
+<p>I’ve found a nice repo <a href="https://github.com/astrofrog/fortranlib">AstroFrog</a> with lots of fortran subroutines that I will implementing as R functions here. The implementation in R is vectorial, hence in Fortra arrays with the required dimension.</p>
+<table class="table">
+<thead><tr class="header">
+<th>id</th>
+<th>Fortran</th>
+<th>R</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>OpenMP</td>
+<td><a href="https://ibarraespinosa.github.io/rfortran/reference/get_threads.html">get_threads</a></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><a href="https://github.com/astrofrog/fortranlib/blob/master/src/base_types.f90">base_types.f90</a></td>
+<td><a href="https://ibarraespinosa.github.io/rfortran/reference/get_types.html">get_types</a></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><a href="https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90">lib_algebra.f90</a></td>
+<td><a href="https://ibarraespinosa.github.io/rfortran/reference/quadratic_reduced.html">quadratic_reduced</a></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><a href="https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90">lib_algebra.f90</a></td>
+<td><a href="https://ibarraespinosa.github.io/rfortran/reference/quadratic.html">quadratic</a></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><a href="https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90">lib_algebra.f90</a></td>
+<td><a href="https://ibarraespinosa.github.io/rfortran/reference/cbrt.html">cbrt</a></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="add-plays" class="section level2">
 <h2 class="hasAnchor">
 <a href="#add-plays" class="anchor"></a>Add plays</h2>

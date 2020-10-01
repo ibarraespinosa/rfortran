@@ -12,81 +12,28 @@ R+Fortran
 [R-EXTS](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
 MANUAL**
 
-Functions:
+## Comparison R and Fortran
 
-**R:**
+| R                | Fortran |
+| ---------------- | ------- |
+| dim(numeric(1L)) | rank?   |
+| TODO add more    |         |
 
-``` r
-library(rfortran)
-get_threads()
-#> [1] 12
-```
+## Implementing several new fortran subroutines
 
-**Fortran:**
+I’ve found a nice repo
+[AstroFrog](https://github.com/astrofrog/fortranlib) with lots of
+fortran subroutines that I will implementing as R functions here. The
+implementation in R is vectorial, hence in Fortra arrays with the
+required dimension.
 
-``` fortran
-SUBROUTINE checkntf (nt) ! # nocov start
-USE OMP_LIB
-IMPLICIT NONE
-
-
-INTEGER nt
-
-
-nt = OMP_GET_MAX_THREADS()
-
-RETURN
-END ! # nocov end
-```
-
-**Makevars:**
-
-``` bash
-USE_FC_TO_LINK =
-PKG_FFLAGS = $(SHLIB_OPENMP_FFLAGS)
-PKG_LIBS = $(SHLIB_OPENMP_FFLAGS)
-
-
-C_OBJS = init.o
-FT_OBJS = get_threads.o
-
-all:
-    @$(MAKE) $(SHLIB)
-    @rm -f  *.o
-
-$(SHLIB): $(FT_OBJS) $(C_OBJS)
-
-init.o:  get_threads.o
-```
-
-**C: generated with
-`tools::package_native_routine_registration_skeleton(".")`**
-
-init.c
-
-``` c
-#include <R_ext/RS.h>
-#include <stdlib.h> // for NULL
-#include <R_ext/Rdynload.h>
-
-/* FIXME: 
-   Check these declarations against the C/Fortran source code.
-*/
-
-/* .Fortran calls */
-extern void F77_NAME(checkntf)(void *);
-
-static const R_FortranMethodDef FortranEntries[] = {
-    {"checkntf", (DL_FUNC) &F77_NAME(checkntf), 1},
-    {NULL, NULL, 0}
-};
-
-void R_init_rfortran(DllInfo *dll)
-{
-    R_registerRoutines(dll, NULL, NULL, FortranEntries, NULL);
-    R_useDynamicSymbols(dll, FALSE);
-}
-```
+| id | Fortran                                                                                     | R                                                                                                |
+| -- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 1  | OpenMP                                                                                      | [get\_threads](https://ibarraespinosa.github.io/rfortran/reference/get_threads.html)             |
+| 2  | [base\_types.f90](https://github.com/astrofrog/fortranlib/blob/master/src/base_types.f90)   | [get\_types](https://ibarraespinosa.github.io/rfortran/reference/get_types.html)                 |
+| 3  | [lib\_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90) | [quadratic\_reduced](https://ibarraespinosa.github.io/rfortran/reference/quadratic_reduced.html) |
+| 4  | [lib\_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90) | [quadratic](https://ibarraespinosa.github.io/rfortran/reference/quadratic.html)                  |
+| 5  | [lib\_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90) | [cbrt](https://ibarraespinosa.github.io/rfortran/reference/cbrt.html)                            |
 
 ## Add plays
 
