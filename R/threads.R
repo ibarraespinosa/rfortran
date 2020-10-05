@@ -4,24 +4,14 @@
 #'
 #' @return Integer with the maxnumber of threads
 #'
-#' @param print show Fortran subroutine
 #' @useDynLib rfortran
 #' @export
-#' @examples {
-#' get_threads(TRUE)
+#' @examples
+#' {
+#'   get_threads()
 #' }
-get_threads <- function(print = FALSE) {
+get_threads <- function() {
   .Fortran("checkntf",
-           nt = integer(1L))$nt
-  if(print) {
-    cat(paste0(
-      "SUBROUTINE checkntf (nt)\n",
-        "USE OMP_LIB\n",
-        "IMPLICIT NONE\n",
-        "INTEGER nt\n",
-        "nt = OMP_GET_MAX_THREADS()\n",
-        "RETURN\n",
-        "END"
-        ))
-  }
+    nt = integer(1L)
+  )$nt
 }

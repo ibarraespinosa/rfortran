@@ -4,10 +4,7 @@
 \alias{get_threads}
 \title{Check the number of threads}
 \usage{
-get_threads(print = FALSE)
-}
-\arguments{
-\item{print}{show Fortran subroutine}
+get_threads()
 }
 \value{
 Integer with the maxnumber of threads
@@ -17,6 +14,6 @@ Integer with the maxnumber of threads
 }
 \examples{
 {
-get_threads(TRUE)
+  get_threads()
 }
 }
