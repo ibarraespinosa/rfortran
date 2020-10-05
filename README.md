@@ -14,10 +14,61 @@ MANUAL**
 
 ## Comparison R and Fortran
 
-| R                | Fortran |
-| ---------------- | ------- |
-| dim(numeric(1L)) | rank?   |
-| TODO add more    |         |
+(TODO Move to wiki or vignette)
+
+``` r
+ma <- array(1:6, c(3,2))
+dim(ma)          # shape in fortran
+#> [1] 3 2
+length(ma)       # size in fortran
+#> [1] 6
+nrow(ma)         # size(ma, 1)
+#> [1] 3
+ncol(ma)         # size(ma, 2)
+#> [1] 2
+length(dim(ma))  # rank ma
+#> [1] 2
+print(ma)
+#>      [,1] [,2]
+#> [1,]    1    4
+#> [2,]    2    5
+#> [3,]    3    6
+```
+
+``` r
+library(inline)
+code <- "
+      real, dimension(3,2) :: a
+      print *, 'size of a: ', size(a)
+      print *, 'size of 1 dim a : ', size(a,1)
+      print *, 'size of 2 dim a : ',size(a,2)
+      print *, 'rank a: ', rank(a)
+      print *, 'shape a: ', shape(a)
+"
+cubefn <- cfunction(body = code, convention=".Fortran")
+print(cubefn)
+#> An object of class 'CFunc'
+#> function () 
+#> .Primitive(".Fortran")(<pointer: 0x7f1c309d0150>)
+#> <environment: 0x55a64c472e48>
+#> code:
+#>   1: 
+#>   2:        SUBROUTINE filed9586cf4ee5d (  )
+#>   3: 
+#>   4: 
+#>   5:       real, dimension(3,2) :: a
+#>   6:       print *, 'size of a: ', size(a)
+#>   7:       print *, 'size of 1 dim a : ', size(a,1)
+#>   8:       print *, 'size of 2 dim a : ',size(a,2)
+#>   9:       print *, 'rank a: ', rank(a)
+#>  10:       print *, 'shape a: ', shape(a)
+#>  11: 
+#>  12:       RETURN
+#>  13:       END
+#>  14:
+cubefn()
+#> list()
+```
 
 ## Implementing several new fortran subroutines
 
@@ -35,7 +86,33 @@ required dimension.
 | 4  | [lib\_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90) | [quadratic](https://ibarraespinosa.github.io/rfortran/reference/quadratic.html)                  |
 | 5  | [lib\_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90) | [cbrt](https://ibarraespinosa.github.io/rfortran/reference/cbrt.html)                            |
 
-## Add plays
+``` r
+library(rfortran)
+get_threads()
+#> [1] 12
+cbrt(1:3)
+#> [1] 1.000000 1.259921 1.442250
+dp_quadratic_reduced(1:4,4:1)
+#>               x1             x2      delta delta_positive
+#> 1  1.797693e+308  1.797693e+308 -15.000000          FALSE
+#> 2  1.797693e+308  1.797693e+308  -8.000000          FALSE
+#> 3  -2.000000e+00  -1.000000e+00   1.000000           TRUE
+#> 4  -3.732051e+00  -2.679492e-01   3.464102           TRUE
+dp_quadratic(1:4,4:1,4:1)
+#>               x1             x2 a delta delta_positive
+#> 1  1.797693e+308  1.797693e+308 4     0          FALSE
+#> 2  1.797693e+308  1.797693e+308 3     0          FALSE
+#> 3  1.797693e+308  1.797693e+308 2     0          FALSE
+#> 4  -3.732051e+00  -2.679492e-01 1     0          FALSE
+dp_quadratic_pascal(1:4,4:1,4:1)
+#>               x1             x2 a delta delta_positive
+#> 1 -1.797693e+308 -1.797693e+308 4     0          FALSE
+#> 2 -1.797693e+308 -1.797693e+308 3     0          FALSE
+#> 3 -1.797693e+308 -1.797693e+308 2     0          FALSE
+#> 4  -3.732051e+00  -2.679492e-01 1     0          FALSE
+```
+
+## Add more
 
 If you know any play, fortran subroutine, trick or anything let me know,
 make a [pull request](https://github.com/ibarraespinosa/rfortran/pulls)

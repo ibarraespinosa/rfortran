@@ -80,7 +80,7 @@ subroutine quadratic_dp(a,bb,cc,x1,x2, lx)
     integer :: lx, i
 
 do i = 1, lx
-    delta(i) = bb(i)*bb(i) - 4._dp*cc(i)
+    delta(i) = bb(i)*bb(i) - 4._dp*a(i)*cc(i)
 
     if(delta(i) > 0) then
        delta(i) = sqrt(delta(i))
@@ -93,3 +93,104 @@ do i = 1, lx
     end if
 enddo
 end subroutine quadratic_dp
+
+subroutine quadratic_pascal_dp(a,bb,cc,x1,x2,lx)
+    implicit none
+
+    integer, parameter :: dp = selected_real_kind(p=15,r=307)
+    real(dp),intent(in)  :: a(lx),bb(lx),cc(lx)
+    real(dp),intent(out) :: x1(lx),x2(lx)
+    real(dp) :: delta(lx),factor(lx),q(lx)
+    integer :: lx, i
+
+do i = 1, lx
+    delta(i) = bb(i)*bb(i) - 4._dp*a(i)*cc(i)
+
+    if(delta(i) > 0) then
+       delta(i) = sqrt(delta(i))
+       !sign return the value of delta with the sign of b
+       delta(i) = sign(delta(i),bb(i))
+
+       q(i) = -0.5_dp * (bb(i) + delta(i))
+       x1(i) = q(i) / a(i)
+       x2(i) = cc(i) / q(i)
+    else if(delta(i) < 0) then
+       x1(i) = -huge(x1(i))
+       x2(i) = -huge(x2(i))
+    else
+       x1(i) = - 2.0_dp * cc(i) / bb(i)
+       x2(i) = -huge(x2(i))
+    end if
+enddo
+end subroutine quadratic_pascal_dp
+
+subroutine quadratic_pascal_reduced_dp(bb,cc,x1,x2,lx)
+    implicit none
+
+    integer, parameter :: dp = selected_real_kind(p=15,r=307)
+    real(dp),intent(in)  :: bb(lx),cc(lx)
+    real(dp),intent(out) :: x1(lx),x2(lx)
+    real(dp) :: delta(lx),factor(lx),q(lx)
+    integer :: lx, i
+
+do i = 1, lx
+    delta(i) = bb(i)*bb(i) - 4._dp*cc(i)
+
+    if(delta(i) > 0) then
+       delta(i) = sqrt(delta(i))
+       !sign return the value of delta with the sign of b
+       delta(i) = sign(delta(i),bb(i))
+
+       q(i) = -0.5_dp * (bb(i) + delta(i))
+       x1(i) = q(i)
+       x2(i) = cc(i) / q(i)
+    else if(delta(i) < 0) then
+       x1(i) = -huge(x1(i))
+       x2(i) = -huge(x2(i))
+    else
+      x1(i) = - 2.0_dp * cc(i) / bb(i)
+      x2(i) = -huge(x2(i))
+    end if
+enddo
+end subroutine quadratic_pascal_reduced_dp
+
+
+subroutine lineq_gausselim_dp(rowsa,colsa,lb, a, b)
+
+   implicit none
+   integer, parameter :: dp = selected_real_kind(p=15,r=307)
+   integer :: rowsa, colsa, lb
+   real(dp),intent(inout) :: a(rowsa,colsa),b(lb)
+   real(dp) :: frac
+   integer :: i,j
+   integer :: n
+
+   n = size(a,1)
+
+   do i=1,n-1
+      ! stopping on R
+ !     if(a(i,i)==0) stop "Zero pivot value"
+      do j=i+1,n
+         if(a(i,j).ne.0.) then
+            frac = a(i,j)/a(i,i)
+            b(j) = b(j) - frac * b(i)
+            a(i:,j) = a(i:,j) - frac * a(i:,i)
+         end if
+      end do
+   end do
+
+   do i=n,2,-1
+      do j=i-1,1,-1
+         if(a(i,j).ne.0.) then
+            frac = a(i,j)/a(i,i)
+            b(j) = b(j) - frac * b(i)
+            a(i:,j) = a(i:,j) - frac * a(i:,i)
+         end if
+      end do
+   end do
+
+   do i=1,n
+      b(i) = b(i) / a(i,i)
+   end do
+
+ end subroutine lineq_gausselim_dp

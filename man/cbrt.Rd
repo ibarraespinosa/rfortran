@@ -17,6 +17,6 @@ function to return x^1/3
 }
 \examples{
 {
-cbrt(1:3)
+  cbrt(1:3)
 }
 }

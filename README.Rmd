@@ -21,11 +21,33 @@ I want to learn more R+Fortran so I created this package to play with R+Fortran
 **ALWAYS READ THE [R-EXTS](https://cran.r-project.org/doc/manuals/r-release/R-exts.html) MANUAL**
 
 ## Comparison R and Fortran
+ (TODO Move to wiki or vignette)
 
-| R               | Fortran                 |
-|-----------------|-------------------------|
-| dim(numeric(1L))|rank?                    |
-| TODO add more| |
+```{r}
+ma <- array(1:6, c(3,2))
+dim(ma)          # shape in fortran
+length(ma)       # size in fortran
+nrow(ma)         # size(ma, 1)
+ncol(ma)         # size(ma, 2)
+length(dim(ma))  # rank ma
+print(ma)
+```
+
+```{r}
+library(inline)
+code <- "
+      real, dimension(3,2) :: a
+      print *, 'size of a: ', size(a)
+      print *, 'size of 1 dim a : ', size(a,1)
+      print *, 'size of 2 dim a : ',size(a,2)
+      print *, 'rank a: ', rank(a)
+      print *, 'shape a: ', shape(a)
+"
+cubefn <- cfunction(body = code, convention=".Fortran")
+print(cubefn)
+cubefn()
+```
+
 
 ## Implementing several new fortran subroutines
 
@@ -42,7 +64,17 @@ The implementation in R is vectorial, hence in Fortra arrays with the required d
 |5| [lib_algebra.f90](https://github.com/astrofrog/fortranlib/blob/master/src/lib_algebra.f90)| [cbrt](https://ibarraespinosa.github.io/rfortran/reference/cbrt.html)|
 
 
+```{r}
+library(rfortran)
+get_threads()
+cbrt(1:3)
+dp_quadratic_reduced(1:4,4:1)
+dp_quadratic(1:4,4:1,4:1)
+dp_quadratic_pascal(1:4,4:1,4:1)
 
-## Add plays
+```
+
+
+## Add more
 
 If you know any play, fortran subroutine, trick or anything let me know, make a [pull request](https://github.com/ibarraespinosa/rfortran/pulls) or anything
