@@ -1,7 +1,3 @@
-authors:
-  Hadley Wickham:
-    href: https://ibarraespinosa.github.io/
-
 template:
   params:
     ganalytics: UA-2642843-8

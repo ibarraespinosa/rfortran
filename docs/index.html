@@ -16,7 +16,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-2642843-8"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-2642843-8');
+</script>
 </head>
 <body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
@@ -49,7 +55,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ibarraespinosa/frortran/">
+  <a href="https://github.com/ibarraespinosa/rfortran/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -74,22 +80,57 @@
 <div id="comparison-r-and-fortran" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparison-r-and-fortran" class="anchor"></a>Comparison R and Fortran</h2>
-<table class="table">
-<thead><tr class="header">
-<th>R</th>
-<th>Fortran</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>dim(numeric(1L))</td>
-<td>rank?</td>
-</tr>
-<tr class="even">
-<td>TODO add more</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>(TODO Move to wiki or vignette)</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>          <span class="co"># shape in fortran</span>
+<span class="co">#&gt; [1] 3 2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>       <span class="co"># size in fortran</span>
+<span class="co">#&gt; [1] 6</span>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>         <span class="co"># size(ma, 1)</span>
+<span class="co">#&gt; [1] 3</span>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>         <span class="co"># size(ma, 2)</span>
+<span class="co">#&gt; [1] 2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span><span class="op">)</span>  <span class="co"># rank ma</span>
+<span class="co">#&gt; [1] 2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>
+<span class="co">#&gt;      [,1] [,2]</span>
+<span class="co">#&gt; [1,]    1    4</span>
+<span class="co">#&gt; [2,]    2    5</span>
+<span class="co">#&gt; [3,]    3    6</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">inline</span><span class="op">)</span>
+<span class="va">code</span> <span class="op">&lt;-</span> <span class="st">"
+      real, dimension(3,2) :: a
+      print *, 'size of a: ', size(a)
+      print *, 'size of 1 dim a : ', size(a,1)
+      print *, 'size of 2 dim a : ',size(a,2)
+      print *, 'rank a: ', rank(a)
+      print *, 'shape a: ', shape(a)
+"</span>
+<span class="va">cubefn</span> <span class="op">&lt;-</span> <span class="fu">cfunction</span><span class="op">(</span>body <span class="op">=</span> <span class="va">code</span>, convention<span class="op">=</span><span class="st">".Fortran"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cubefn</span><span class="op">)</span>
+<span class="co">#&gt; An object of class 'CFunc'</span>
+<span class="co">#&gt; function () </span>
+<span class="co">#&gt; .Primitive(".Fortran")(&lt;pointer: 0x7f1c309d0150&gt;)</span>
+<span class="co">#&gt; &lt;environment: 0x55a64c472e48&gt;</span>
+<span class="co">#&gt; code:</span>
+<span class="co">#&gt;   1: </span>
+<span class="co">#&gt;   2:        SUBROUTINE filed9586cf4ee5d (  )</span>
+<span class="co">#&gt;   3: </span>
+<span class="co">#&gt;   4: </span>
+<span class="co">#&gt;   5:       real, dimension(3,2) :: a</span>
+<span class="co">#&gt;   6:       print *, 'size of a: ', size(a)</span>
+<span class="co">#&gt;   7:       print *, 'size of 1 dim a : ', size(a,1)</span>
+<span class="co">#&gt;   8:       print *, 'size of 2 dim a : ',size(a,2)</span>
+<span class="co">#&gt;   9:       print *, 'rank a: ', rank(a)</span>
+<span class="co">#&gt;  10:       print *, 'shape a: ', shape(a)</span>
+<span class="co">#&gt;  11: </span>
+<span class="co">#&gt;  12:       RETURN</span>
+<span class="co">#&gt;  13:       END</span>
+<span class="co">#&gt;  14:</span>
+<span class="fu">cubefn</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; list()</span></pre></div>
 </div>
 <div id="implementing-several-new-fortran-subroutines" class="section level2">
 <h2 class="hasAnchor">
@@ -129,10 +170,34 @@
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ibarraespinosa/rfortran">rfortran</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/get_threads.html">get_threads</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] 12</span>
+<span class="fu"><a href="reference/cbrt.html">cbrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.000000 1.259921 1.442250</span>
+<span class="fu"><a href="reference/dp_quadratic_reduced.html">dp_quadratic_reduced</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;               x1             x2      delta delta_positive</span>
+<span class="co">#&gt; 1  1.797693e+308  1.797693e+308 -15.000000          FALSE</span>
+<span class="co">#&gt; 2  1.797693e+308  1.797693e+308  -8.000000          FALSE</span>
+<span class="co">#&gt; 3  -2.000000e+00  -1.000000e+00   1.000000           TRUE</span>
+<span class="co">#&gt; 4  -3.732051e+00  -2.679492e-01   3.464102           TRUE</span>
+<span class="fu"><a href="reference/dp_quadratic.html">dp_quadratic</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;               x1             x2 a delta delta_positive</span>
+<span class="co">#&gt; 1  1.797693e+308  1.797693e+308 4     0          FALSE</span>
+<span class="co">#&gt; 2  1.797693e+308  1.797693e+308 3     0          FALSE</span>
+<span class="co">#&gt; 3  1.797693e+308  1.797693e+308 2     0          FALSE</span>
+<span class="co">#&gt; 4  -3.732051e+00  -2.679492e-01 1     0          FALSE</span>
+<span class="fu"><a href="reference/dp_quadratic_pascal.html">dp_quadratic_pascal</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;               x1             x2 a delta delta_positive</span>
+<span class="co">#&gt; 1 -1.797693e+308 -1.797693e+308 4     0          FALSE</span>
+<span class="co">#&gt; 2 -1.797693e+308 -1.797693e+308 3     0          FALSE</span>
+<span class="co">#&gt; 3 -1.797693e+308 -1.797693e+308 2     0          FALSE</span>
+<span class="co">#&gt; 4  -3.732051e+00  -2.679492e-01 1     0          FALSE</span></pre></div>
 </div>
-<div id="add-plays" class="section level2">
+<div id="add-more" class="section level2">
 <h2 class="hasAnchor">
-<a href="#add-plays" class="anchor"></a>Add plays</h2>
+<a href="#add-more" class="anchor"></a>Add more</h2>
 <p>If you know any play, fortran subroutine, trick or anything let me know, make a <a href="https://github.com/ibarraespinosa/rfortran/pulls">pull request</a> or anything</p>
 </div>
 </div>
@@ -142,9 +207,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/ibarraespinosa/frortran/">https://​github.com/​ibarraespinosa/​frortran/​</a>
+<li>Browse source code at <br><a href="https://github.com/ibarraespinosa/rfortran/">https://​github.com/​ibarraespinosa/​rfortran/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/ibarraespinosa/frortran/issues">https://​github.com/​ibarraespinosa/​frortran/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/ibarraespinosa/rfortran/issues">https://​github.com/​ibarraespinosa/​rfortran/​issues</a>
 </li>
 </ul>
 </div>
@@ -157,7 +222,7 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Sergio Ibarra-Espinosa <br><small class="roles"> Author, maintainer, woodcutter </small> <a href="https://orcid.org/0000-0002-3162-1905" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Sergio Ibarra-Espinosa <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3162-1905" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -170,7 +235,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
