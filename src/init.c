@@ -1,8 +1,9 @@
 #include <R_ext/RS.h>
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
+#include "myomp.h"
 
-/* FIXME: 
+/* FIXME:
    Check these declarations against the C/Fortran source code.
 */
 
