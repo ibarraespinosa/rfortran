@@ -72,6 +72,10 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- date: "24 de Septiembre de 2020" -->
 <div id="an-r-package-to-play-with-fortran-and-openmp" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#an-r-package-to-play-with-fortran-and-openmp" class="anchor"></a>An R package to play with Fortran and OpenMP</h1></div>
@@ -108,15 +112,15 @@
       print *, 'rank a: ', rank(a)
       print *, 'shape a: ', shape(a)
 "</span>
-<span class="va">cubefn</span> <span class="op">&lt;-</span> <span class="fu">cfunction</span><span class="op">(</span>body <span class="op">=</span> <span class="va">code</span>, convention<span class="op">=</span><span class="st">".Fortran"</span><span class="op">)</span>
+<span class="va">cubefn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/inline/man/cfunction.html">cfunction</a></span><span class="op">(</span>body <span class="op">=</span> <span class="va">code</span>, convention<span class="op">=</span><span class="st">".Fortran"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cubefn</span><span class="op">)</span>
 <span class="co">#&gt; An object of class 'CFunc'</span>
 <span class="co">#&gt; function () </span>
-<span class="co">#&gt; .Primitive(".Fortran")(&lt;pointer: 0x7f1c309d0150&gt;)</span>
-<span class="co">#&gt; &lt;environment: 0x55a64c472e48&gt;</span>
+<span class="co">#&gt; .Primitive(".Fortran")(&lt;pointer: 0x7f9a1dc07150&gt;)</span>
+<span class="co">#&gt; &lt;environment: 0x56428c50fc10&gt;</span>
 <span class="co">#&gt; code:</span>
 <span class="co">#&gt;   1: </span>
-<span class="co">#&gt;   2:        SUBROUTINE filed9586cf4ee5d (  )</span>
+<span class="co">#&gt;   2:        SUBROUTINE file312f6a470742 (  )</span>
 <span class="co">#&gt;   3: </span>
 <span class="co">#&gt;   4: </span>
 <span class="co">#&gt;   5:       real, dimension(3,2) :: a</span>
@@ -171,7 +175,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ibarraespinosa/rfortran">rfortran</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ibarraespinosa/frortran">rfortran</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/get_threads.html">get_threads</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] 12</span>
 <span class="fu"><a href="reference/cbrt.html">cbrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
@@ -201,6 +205,7 @@
 <p>If you know any play, fortran subroutine, trick or anything let me know, make a <a href="https://github.com/ibarraespinosa/rfortran/pulls">pull request</a> or anything</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -226,7 +231,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/ibarraespinosa/rfortran"><img src="https://travis-ci.org/ibarraespinosa/rfortran.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 

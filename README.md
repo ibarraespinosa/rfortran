@@ -1,4 +1,7 @@
 
+[![Travis-CI Build
+Status](https://travis-ci.org/ibarraespinosa/rfortran.svg?branch=master)](https://travis-ci.org/ibarraespinosa/rfortran)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- date: "24 de Septiembre de 2020" -->
@@ -49,11 +52,11 @@ cubefn <- cfunction(body = code, convention=".Fortran")
 print(cubefn)
 #> An object of class 'CFunc'
 #> function () 
-#> .Primitive(".Fortran")(<pointer: 0x7f1c309d0150>)
-#> <environment: 0x55a64c472e48>
+#> .Primitive(".Fortran")(<pointer: 0x7f9a1dc07150>)
+#> <environment: 0x56428c50fc10>
 #> code:
 #>   1: 
-#>   2:        SUBROUTINE filed9586cf4ee5d (  )
+#>   2:        SUBROUTINE file312f6a470742 (  )
 #>   3: 
 #>   4: 
 #>   5:       real, dimension(3,2) :: a
