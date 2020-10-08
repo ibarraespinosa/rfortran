@@ -4,9 +4,9 @@ IMPLICIT NONE
 
 INTEGER nt
 
-!$ifdef _OPENMP
+#ifdef _OPENMP
 nt = OMP_GET_MAX_THREADS()
-!$endif
+#endif
 
 RETURN
 END ! # nocov end
