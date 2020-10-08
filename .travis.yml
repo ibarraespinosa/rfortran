@@ -6,7 +6,7 @@ matrix:
   include:
     - dist: focal
     - os: osx
-      brew_packages: llvm
+      brew_packages: llvm, libomp
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rm "/usr/local/bin/gfortran"; fi
