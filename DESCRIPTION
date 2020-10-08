@@ -5,13 +5,13 @@ Version: 0.1.0
 Date: 2020-09-24
 Authors@R: c( 
   person(given = "Sergio", family = "Ibarra-Espinosa",
-         role = c("aut", "cre", "wdc"),
+         role = c("aut", "cre"),
          email = "sergio.ibarra@usp.br",
          comment = c(ORCID = "0000-0002-3162-1905"))) 
 Description: Fortran subroutines and R functions.
 License: GPL
-URL: https://github.com/ibarraespinosa/frortran
-BugReports: https://github.com/ibarraespinosa/frortran/issues
+URL: https://github.com/ibarraespinosa/rfortran
+BugReports: https://github.com/ibarraespinosa/rfortran/issues
 LazyData: no
 Depends: R (>= 3.5.0)
 Suggests: knitr, rmarkdown, testthat, covr, 
