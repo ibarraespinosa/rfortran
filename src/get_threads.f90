@@ -1,5 +1,7 @@
 SUBROUTINE checkntf (nt) ! # nocov start
 !$ USE OMP_LIB
+
+
 IMPLICIT NONE
 
 
