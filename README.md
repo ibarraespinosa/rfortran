@@ -1,7 +1,9 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/ibarraespinosa/rfortran.svg?branch=master)](https://travis-ci.org/ibarraespinosa/rfortran)
-
+ [![R build
+    status](https://github.com/ibarraespinosa/rfortran/workflows/Check/badge.svg)](https://github.com/ibarraespinosa/rfortran/actions)
+    
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- date: "24 de Septiembre de 2020" -->
