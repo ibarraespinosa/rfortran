@@ -85,8 +85,8 @@
 <h2 class="hasAnchor">
 <a href="#comparison-r-and-fortran" class="anchor"></a>Comparison R and Fortran</h2>
 <p>(TODO Move to wiki or vignette)</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>          <span class="co"># shape in fortran</span>
 <span class="co">#&gt; [1] 3 2</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span>       <span class="co"># size in fortran</span>
@@ -101,9 +101,9 @@
 <span class="co">#&gt;      [,1] [,2]</span>
 <span class="co">#&gt; [1,]    1    4</span>
 <span class="co">#&gt; [2,]    2    5</span>
-<span class="co">#&gt; [3,]    3    6</span></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">inline</span><span class="op">)</span>
+<span class="co">#&gt; [3,]    3    6</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">inline</span><span class="op">)</span>
 <span class="va">code</span> <span class="op">&lt;-</span> <span class="st">"
       real, dimension(3,2) :: a
       print *, 'size of a: ', size(a)
@@ -134,7 +134,7 @@
 <span class="co">#&gt;  13:       END</span>
 <span class="co">#&gt;  14:</span>
 <span class="fu">cubefn</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; list()</span></pre></div>
+<span class="co">#&gt; list()</span></code></pre></div>
 </div>
 <div id="implementing-several-new-fortran-subroutines" class="section level2">
 <h2 class="hasAnchor">
@@ -174,8 +174,8 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ibarraespinosa/frortran">rfortran</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ibarraespinosa/rfortran">rfortran</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/get_threads.html">get_threads</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] 12</span>
 <span class="fu"><a href="reference/cbrt.html">cbrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
@@ -197,7 +197,7 @@
 <span class="co">#&gt; 1 -1.797693e+308 -1.797693e+308 4     0          FALSE</span>
 <span class="co">#&gt; 2 -1.797693e+308 -1.797693e+308 3     0          FALSE</span>
 <span class="co">#&gt; 3 -1.797693e+308 -1.797693e+308 2     0          FALSE</span>
-<span class="co">#&gt; 4  -3.732051e+00  -2.679492e-01 1     0          FALSE</span></pre></div>
+<span class="co">#&gt; 4  -3.732051e+00  -2.679492e-01 1     0          FALSE</span></code></pre></div>
 </div>
 <div id="add-more" class="section level2">
 <h2 class="hasAnchor">
@@ -235,6 +235,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/ibarraespinosa/rfortran"><img src="https://travis-ci.org/ibarraespinosa/rfortran.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://github.com/ibarraespinosa/rfortran/actions"><img src="https://github.com/ibarraespinosa/rfortran/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>
